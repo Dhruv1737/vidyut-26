@@ -1,4 +1,5 @@
 import { SectionEyebrow, SectionTitle, BtnGold } from '../components/UI'
+import StepperSection from '../components/StepperSection'
 
 function PhaseCard({ num, tag, tagGold, title, body, details, highlight }) {
   return (
@@ -96,40 +97,7 @@ export default function Vidyut() {
           </div>
         </div>
       </section>
-
-      {/* ════════ TECH TRACK 2.0 ════════ */}
-      <section className="bg-white px-4 sm:px-8 lg:px-14 py-16 sm:py-20 w-full max-w-full">
-        <div className="max-w-[1100px] mx-auto w-full">
-          <SectionEyebrow>The Competition</SectionEyebrow>
-          <SectionTitle className="mb-3">Tech Track 2.0</SectionTitle>
-          <p className="text-[15px] sm:text-[16px] font-light text-muted leading-[1.85] max-w-[620px] mb-10 break-words">
-            A two-phase competition that filters raw ideas into polished engineering solutions — from your laptop to the MANIT stage, in front of an industry jury.
-          </p>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-sage2 border border-sage2 w-full">
-            <PhaseCard
-              num="01" tag="Phase One" title="Online Proposal"
-              body="Submit your EV innovation proposal digitally through Unstop. Teams are evaluated on technical merit, real-world feasibility, and potential for scalable impact in India's mobility sector."
-              details={[
-                'Submit via Unstop platform',
-                'Any engineering domain welcome',
-                'Team size: 1–4 members',
-                'Deadline: September 5, 2025',
-              ]}
-            />
-            <PhaseCard
-              num="02" tag="Phase Two" tagGold title="Offline Finale" highlight
-              body="Shortlisted teams present live at MANIT Bhopal before an expert jury of industry professionals, Vaayu Robotics engineers, and faculty — competing for ₹18,000 in prizes and internship offers."
-              details={[
-                'Live pitch + Q&A with jury',
-                'Industry judges from Vaayu Robotics',
-                'Winners announced on stage',
-                'Date: September 9, 2025',
-              ]}
-            />
-          </div>
-        </div>
-      </section>
-
+      <StepperSection />
       {/* ════════ PRIZE MATRIX ════════ */}
       <section className="bg-forest px-4 sm:px-8 lg:px-14 py-16 sm:py-20 w-full max-w-full">
         <div className="max-w-[1100px] mx-auto w-full">
@@ -216,7 +184,7 @@ export default function Vidyut() {
           </div>
         </div>
       </section>
-
+      
       {/* ════════ TIMELINE ════════ */}
       <section className="bg-sage px-4 sm:px-8 lg:px-14 py-16 sm:py-20 w-full max-w-full">
         <div className="max-w-[1100px] mx-auto w-full">

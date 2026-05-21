@@ -9,6 +9,130 @@ const links = [
   { label: 'Founders',  to: '/founders' },
 ]
 
+function CountdownBar() {
+  const target = new Date('2026-09-09T09:00:00').getTime()
+
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0, hours: 0, minutes: 0, seconds: 0
+  })
+
+  useEffect(() => {
+    const tick = () => {
+      const now = Date.now()
+      const diff = target - now
+      if (diff <= 0) return
+      setTimeLeft({
+        days:    Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours:   Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        seconds: Math.floor((diff / 1000) % 60),
+      })
+    }
+    tick()
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  const pad = (n) => String(n).padStart(2, '0')
+
+  return (
+    <div style={{
+      position: 'sticky',
+      top: 0,
+      zIndex: 300,
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      background: 'rgba(27, 48, 34, 0.75)',
+      borderBottom: '1px solid rgba(184, 148, 58, 0.3)',
+    }}>
+      <div style={{
+        maxWidth: 1200,
+        margin: '0 auto',
+        padding: '10px 24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '24px',
+        flexWrap: 'wrap',
+      }}>
+        {/* label */}
+        <span style={{
+          fontFamily: "'Barlow Condensed', sans-serif",
+          fontSize: 11,
+          fontWeight: 700,
+          letterSpacing: '0.2em',
+          textTransform: 'uppercase',
+          color: '#B8943A',
+        }}>
+          Vidyut-26 · Grand Finale
+        </span>
+
+        {/* divider */}
+        <span style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.15)', flexShrink: 0 }} />
+
+        {/* time units */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          {[
+            { val: pad(timeLeft.days),    label: 'Days'    },
+            { val: pad(timeLeft.hours),   label: 'Hours'   },
+            { val: pad(timeLeft.minutes), label: 'Mins'    },
+            { val: pad(timeLeft.seconds), label: 'Secs'    },
+          ].map(({ val, label }, i) => (
+            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: 22,
+                  color: '#ffffff',
+                  lineHeight: 1,
+                  letterSpacing: '0.04em',
+                }}>
+                  {val}
+                </div>
+                <div style={{
+                  fontFamily: "'Barlow Condensed', sans-serif",
+                  fontSize: 9,
+                  fontWeight: 600,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.35)',
+                  marginTop: 2,
+                }}>
+                  {label}
+                </div>
+              </div>
+              {i < 3 && (
+                <span style={{
+                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontSize: 20,
+                  color: '#B8943A',
+                  lineHeight: 1,
+                  marginBottom: 10,
+                }}>:</span>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* divider */}
+        <span style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.15)', flexShrink: 0 }} />
+
+        {/* date */}
+        <span style={{
+          fontFamily: "'Barlow Condensed', sans-serif",
+          fontSize: 11,
+          fontWeight: 600,
+          letterSpacing: '0.14em',
+          textTransform: 'uppercase',
+          color: 'rgba(255,255,255,0.35)',
+        }}>
+          Sept 9, 2026 · MANIT Bhopal
+        </span>
+      </div>
+    </div>
+  )
+}
+
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -25,6 +149,8 @@ export default function Navbar() {
   }, [])
 
   return (
+    <> 
+    <CountdownBar />
     <header
       className={`sticky top-0 z-[200] bg-forest transition-shadow duration-200 ${
         scrolled ? 'shadow-[0_2px_20px_rgba(0,0,0,0.35)]' : ''
@@ -112,6 +238,7 @@ export default function Navbar() {
         </nav>
       </div>
     </header>
+    </>
   )
 }
 
