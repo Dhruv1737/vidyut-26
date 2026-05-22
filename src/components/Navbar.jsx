@@ -10,7 +10,7 @@ const links = [
   { label: 'Founders',  to: '/founders' },
 ]
 
-/* ── 1. INLINE CAPSULE COUNTDOWN BADGE ── */
+/* ── 1. COMPACT CAPSULE COUNTDOWN ── */
 function InlineCountdown() {
   const target = new Date('2026-09-09T09:00:00').getTime()
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
@@ -35,41 +35,40 @@ function InlineCountdown() {
 
   return (
     <div
-      className="inline-flex items-center gap-3 bg-white/[.04] border border-gold/20 rounded-full px-4 py-[6px] backdrop-blur-md"
-      style={{ border: '1px solid rgba(184,148,58,0.25)' }}
+      className="inline-flex items-center gap-2 xs:gap-3 bg-white/[0.03] border rounded-full px-2.5 xs:px-4 py-[5px] backdrop-blur-md"
+      style={{ borderColor: 'rgba(184,148,58,0.2)' }}
     >
       <span style={{
         fontFamily: "'Barlow Condensed', sans-serif",
         fontSize: 10, fontWeight: 700,
-        letterSpacing: '0.12em', textTransform: 'uppercase',
+        letterSpacing: '0.1em', textTransform: 'uppercase',
         color: '#B8943A',
         whiteSpace: 'nowrap',
       }}>
-        Vidyut-26
+        Vidyut
       </span>
       
       <span style={{ width: 1, height: 10, background: 'rgba(255,255,255,0.12)' }} />
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
         {[
           { val: pad(timeLeft.days),    label: 'd' },
           { val: pad(timeLeft.hours),   label: 'h' },
           { val: pad(timeLeft.minutes), label: 'm' },
           { val: pad(timeLeft.seconds), label: 's' },
         ].map(({ val, label }, i) => (
-          <div key={label} style={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+          <div key={label} style={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
             <span style={{
               fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 15, color: '#fff',
+              fontSize: 14, color: '#fff',
               lineHeight: 1,
             }}>{val}</span>
             <span style={{
               fontFamily: "'Barlow Condensed', sans-serif",
-              fontSize: 8, fontWeight: 500,
+              fontSize: 7.5, fontWeight: 500,
               color: 'rgba(255,255,255,0.3)',
-              textTransform: 'lowercase'
             }}>{label}</span>
-            {i < 3 && <span style={{ color: '#B8943A', fontSize: 11, marginLeft: 2, opacity: 0.5 }}>:</span>}
+            {i < 3 && <span style={{ color: '#B8943A', fontSize: 10, marginLeft: 1, opacity: 0.4 }}>:</span>}
           </div>
         ))}
       </div>
@@ -77,7 +76,7 @@ function InlineCountdown() {
   )
 }
 
-/* ── 2. SLIDE NAVIGATION TABS SYSTEM ── */
+/* ── 2. TAB TRACKING SLIDER ── */
 function SlideTabs() {
   const location = useLocation()
   const [position, setPosition] = useState({ left: 0, width: 0, opacity: 0 })
@@ -120,21 +119,10 @@ function SlideTabs() {
 function SlideTab({ to, children, setPosition }) {
   const ref = useRef(null)
   const location = useLocation()
-  const isActive = to === '/'
-    ? location.pathname === '/'
-    : location.pathname.startsWith(to)
+  const isActive = to === '/' ? location.pathname === '/' : location.pathname.startsWith(to)
 
   return (
-    <li
-      ref={ref}
-      data-active={isActive}
-      onMouseEnter={() => {
-        if (!ref.current) return
-        const { width } = ref.current.getBoundingClientRect()
-        setPosition({ left: ref.current.offsetLeft, width, opacity: 1 })
-      }}
-      className="relative z-10 list-none"
-    >
+    <li ref={ref} data-active={isActive} className="relative z-10 list-none">
       <NavLink
         to={to}
         end={to === '/'}
@@ -160,7 +148,7 @@ function SlideCursor({ position }) {
   )
 }
 
-/* ── 3. MAIN INTEGRATED EXPORT HEADER ── */
+/* ── 3. LIVE NAVIGATION BAR MAIN ROW ── */
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -180,12 +168,12 @@ export default function Navbar() {
         scrolled ? 'shadow-[0_2px_20px_rgba(0,0,0,0.55)]' : ''
       }`}
     >
-      <div className="max-w-[1200px] mx-auto px-6 h-[95px] flex items-center justify-between gap-4">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-[85px] flex items-center justify-between gap-2">
         
-        {/* Left Side: Logo & Embedded Badge together */}
-        <div className="flex items-center gap-5">
+        {/* Left Section: Logo & Capsule are grouped together and always visible */}
+        <div className="flex items-center gap-3 sm:gap-4 flex-1 md:flex-initial">
           <NavLink to="/" className="no-underline flex-shrink-0">
-            <div className="w-16 h-16 md:w-[72px] md:h-[72px] bg-transparent flex items-center justify-center transition-transform duration-200 hover:scale-105">
+            <div className="w-14 h-14 md:w-[72px] md:h-[72px] bg-transparent flex items-center justify-center transition-transform duration-200 hover:scale-105">
               <img 
                 src="https://evolve.nitb.in/Evolve_Logo.png" 
                 alt="Evolve Logo" 
@@ -194,26 +182,20 @@ export default function Navbar() {
             </div>
           </NavLink>
           
-          {/* Sits right next to the logo on desktop screens */}
-          <div className="hidden lg:block">
-            <InlineCountdown />
-          </div>
+          {/* Always visible on both mobile devices and desktop monitors */}
+          <InlineCountdown />
         </div>
 
-        {/* Right Side: Primary Navigation Links */}
-        <div className="hidden md:flex items-center gap-4">
-          {/* Moves into the main navbar line for mid-sized tablet displays */}
-          <div className="hidden md:block lg:hidden">
-            <InlineCountdown />
-          </div>
+        {/* Right Section: Large Screen Desktop links */}
+        <div className="hidden md:flex items-center">
           <SlideTabs />
         </div>
 
-        {/* Mobile Hamburger Action */}
+        {/* Mobile Hamburger Button */}
         <button
           onClick={() => setOpen((o) => !o)}
           aria-label="Toggle menu"
-          className="md:hidden flex flex-col gap-[5px] p-[6px] z-50"
+          className="md:hidden flex flex-col gap-[5px] p-[6px] ml-2 flex-shrink-0"
         >
           <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-transform duration-200 origin-center ${open ? 'rotate-45 translate-y-[7px]' : ''}`} />
           <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-opacity duration-200 ${open ? 'opacity-0' : ''}`} />
@@ -221,14 +203,9 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu Dropdown Panel */}
-      <div className={`md:hidden overflow-hidden transition-all duration-300 border-t border-white/[.07] ${open ? 'max-h-[450px] opacity-100' : 'max-h-0 opacity-0'}`}>
-        <nav className="bg-forest px-6 pb-6 pt-3 flex flex-col gap-2">
-          {/* Renders right at the top of mobile link panel drawer */}
-          <div className="pb-3 border-b border-white/[.05] flex justify-center">
-            <InlineCountdown />
-          </div>
-          
+      {/* Dropdown overlay menu panel for small viewports */}
+      <div className={`md:hidden overflow-hidden transition-all duration-300 border-t border-white/[.07] ${open ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <nav className="bg-forest px-6 pb-5 pt-2 flex flex-col">
           {links.map((l) => (
             <NavLink
               key={l.to}
