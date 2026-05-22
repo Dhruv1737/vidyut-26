@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Navbar           from './components/Navbar'
 import Footer           from './components/Footer'
-import CountdownBar     from './components/CountdownBar'
 import CutoutTextLoader from './components/CutoutTextLoader'
 import Home             from './pages/Home'
 import Vidyut           from './pages/Vidyut'
@@ -21,11 +20,14 @@ export default function App() {
   }
 
   return (
-    <>
+    <div style={{ overflowX: 'hidden', width: '100%', maxWidth: '100vw' }}>
       {loading && <CutoutTextLoader duration={4500} onDone={handleDone} />}
-      <div className="flex flex-col min-h-screen" style={{ visibility: loading ? 'hidden' : 'visible' }}>
+      <div
+        className="flex flex-col min-h-screen"
+        style={{ visibility: loading ? 'hidden' : 'visible' }}
+      >
         <Navbar />
-        <main className="flex-1">
+        <main className="flex-1 w-full overflow-x-hidden">
           <Routes>
             <Route path="/"         element={<Home />}     />
             <Route path="/vidyut"   element={<Vidyut />}   />
@@ -36,6 +38,6 @@ export default function App() {
         </main>
         <Footer />
       </div>
-    </>
+    </div>
   )
 }

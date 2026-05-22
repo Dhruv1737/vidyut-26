@@ -25,10 +25,11 @@ function MediaCard({ name }) {
 
 export default function About() {
   return (
-    <>
+    <div className="w-full overflow-x-hidden">
+
       {/* ════════ HERO ════════ */}
-      <section className="bg-forest px-8 lg:px-14 py-24 relative overflow-hidden">
-        <div className="absolute -right-24 -top-24 w-[500px] h-[500px] rounded-full bg-pine opacity-[.3] pointer-events-none" />
+      <section className="bg-forest px-4 sm:px-8 lg:px-14 py-16 sm:py-24 relative overflow-hidden">
+        <div className="absolute -right-24 -top-24 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] rounded-full bg-pine opacity-[.3] pointer-events-none" />
         <div className="relative z-10 max-w-[800px]">
           <div className="flex items-center gap-3 mb-6 animate-fade-up">
             <span className="w-7 h-[2px] bg-gold flex-shrink-0" />
@@ -37,25 +38,25 @@ export default function About() {
             </span>
           </div>
           <h1 className="font-display text-white leading-[.92] tracking-[.01em] mb-6 animate-fade-up-1"
-            style={{ fontSize: 'clamp(3rem,7vw,6rem)' }}>
+            style={{ fontSize: 'clamp(2.5rem,7vw,6rem)' }}>
             Evolve: The<br />Interdisciplinary<br /><span className="text-gold">Technical Club</span><br />of NIT Bhopal.
           </h1>
-          <p className="text-white/55 font-light text-[17px] leading-[1.75] max-w-[540px] animate-fade-up-2">
+          <p className="text-white/55 font-light text-[15px] sm:text-[17px] leading-[1.75] max-w-[540px] animate-fade-up-2">
             Founded by students, driven by purpose. Evolve bridges the gap between engineering talent and the rapidly evolving EV automotive sector.
           </p>
         </div>
       </section>
 
       {/* ════════ MISSION ════════ */}
-      <section className="bg-sage px-8 lg:px-14 py-20">
-        <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+      <section className="bg-sage px-4 sm:px-8 lg:px-14 py-16 sm:py-20">
+        <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           <div>
             <SectionEyebrow light>Mission</SectionEyebrow>
             <SectionTitle light className="mb-4">Bridging Talent &amp; Technology</SectionTitle>
-            <p className="text-[16px] font-light text-white/55 leading-[1.85] mb-4">
+            <p className="text-[15px] sm:text-[16px] font-light text-white/55 leading-[1.85] mb-4">
               Evolve was built on a single conviction: that the future of India's mobility sector will be shaped by students who get real exposure, real mentorship, and real platforms to demonstrate their capabilities.
             </p>
-            <p className="text-[16px] font-light text-white/55 leading-[1.85]">
+            <p className="text-[15px] sm:text-[16px] font-light text-white/55 leading-[1.85]">
               Through Vidyut, we create that bridge — between the classroom and the industry, between prototype and product, between student and professional.
             </p>
           </div>
@@ -68,24 +69,24 @@ export default function About() {
       </section>
 
       {/* ════════ MANIT IDENTITY ════════ */}
-      <section className="bg-pine px-8 lg:px-14 py-20">
-        <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <section className="bg-pine px-4 sm:px-8 lg:px-14 py-16 sm:py-20">
+        <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div>
             <SectionEyebrow light>Institutional Identity</SectionEyebrow>
             <SectionTitle light className="mb-4">Proudly Rooted at MANIT</SectionTitle>
-            <p className="text-white/65 font-light text-[16px] leading-[1.85] mb-4">
+            <p className="text-white/65 font-light text-[15px] sm:text-[16px] leading-[1.85] mb-4">
               Evolve operates under the institutional support of{' '}
               <strong className="text-white font-semibold">Maulana Azad National Institute of Technology, Bhopal</strong> — one of India's premier National Institutes of Technology and a cornerstone of Central India's engineering education.
             </p>
-            <p className="text-white/65 font-light text-[16px] leading-[1.85]">
+            <p className="text-white/65 font-light text-[15px] sm:text-[16px] leading-[1.85]">
               MANIT's campus — particularly the iconic Department Circle — serves as the live stage for Vidyut's annual EV exposition, giving the event both scale and credibility.
             </p>
           </div>
-          <div className="bg-forest border border-white/10 p-10 text-center">
-            <p className="text-[56px] mb-4">🏛️</p>
-            <p className="font-display text-[2rem] text-white tracking-[.02em] mb-1">MANIT Bhopal</p>
-            <p className="text-[14px] text-white/40 mb-6">Maulana Azad National Institute of Technology</p>
-            <p className="text-[13px] text-white/25 leading-[1.7]">
+          <div className="bg-forest border border-white/10 p-8 sm:p-10 text-center">
+            <p className="text-[48px] sm:text-[56px] mb-4">🏛️</p>
+            <p className="font-display text-[1.8rem] sm:text-[2rem] text-white tracking-[.02em] mb-1">MANIT Bhopal</p>
+            <p className="text-[13px] sm:text-[14px] text-white/40 mb-6">Maulana Azad National Institute of Technology</p>
+            <p className="text-[12px] sm:text-[13px] text-white/25 leading-[1.7]">
               Established 1960 · NIT Ranking Band · Bhopal, Madhya Pradesh<br />
               One of 31 National Institutes of Technology in India
             </p>
@@ -94,14 +95,14 @@ export default function About() {
       </section>
 
       {/* ════════ MEDIA ECOSYSTEM ════════ */}
-      <section className="bg-sage px-8 lg:px-14 py-20">
+      <section className="bg-sage px-4 sm:px-8 lg:px-14 py-16 sm:py-20">
         <div className="max-w-[1100px] mx-auto">
           <SectionEyebrow light>Media Coverage</SectionEyebrow>
           <SectionTitle light className="mb-3">Our Media Ecosystem</SectionTitle>
-          <p className="text-[16px] font-light text-white/50 leading-[1.85] max-w-[560px] mb-10">
+          <p className="text-[15px] sm:text-[16px] font-light text-white/50 leading-[1.85] max-w-[560px] mb-10">
             Vidyut received widespread regional media recognition — amplifying Evolve NITB's work to audiences across Madhya Pradesh.
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
             {['BKB', 'MP04', 'BHM', 'Bhopal Update'].map((m) => (
               <MediaCard key={m} name={m} />
             ))}
@@ -110,11 +111,11 @@ export default function About() {
       </section>
 
       {/* ════════ CTA to Founders ════════ */}
-      <section className="bg-forest px-8 lg:px-14 py-20 border-t border-white/[.06]">
+      <section className="bg-forest px-4 sm:px-8 lg:px-14 py-16 sm:py-20 border-t border-white/[.06]">
         <div className="max-w-[1100px] mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
           <div>
             <SectionTitle light className="mb-3">Meet the Leadership</SectionTitle>
-            <p className="text-white/50 font-light text-[16px] max-w-[440px] leading-[1.75]">
+            <p className="text-white/50 font-light text-[15px] sm:text-[16px] max-w-[440px] leading-[1.75]">
               The three driven individuals behind Vidyut's vision, strategy, and execution — from first idea to grand finale.
             </p>
           </div>
@@ -126,6 +127,7 @@ export default function About() {
           </Link>
         </div>
       </section>
-    </>
+
+    </div>
   )
 }
