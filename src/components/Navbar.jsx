@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
+import { motion } from 'motion/react'
 
 const links = [
   { label: 'Home',      to: '/'         },
@@ -9,17 +10,14 @@ const links = [
   { label: 'Founders',  to: '/founders' },
 ]
 
-function CountdownBar() {
+/* ── 1. INLINE CAPSULE COUNTDOWN BADGE ── */
+function InlineCountdown() {
   const target = new Date('2026-09-09T09:00:00').getTime()
-
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0, hours: 0, minutes: 0, seconds: 0
-  })
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
 
   useEffect(() => {
     const tick = () => {
-      const now = Date.now()
-      const diff = target - now
+      const diff = target - Date.now()
       if (diff <= 0) return
       setTimeLeft({
         days:    Math.floor(diff / (1000 * 60 * 60 * 24)),
@@ -31,117 +29,145 @@ function CountdownBar() {
     tick()
     const id = setInterval(tick, 1000)
     return () => clearInterval(id)
-  }, [])
+  }, [target])
 
   const pad = (n) => String(n).padStart(2, '0')
 
   return (
-    <div style={{
-      position: 'sticky',
-      top: 0,
-      zIndex: 300,
-      backdropFilter: 'blur(12px)',
-      WebkitBackdropFilter: 'blur(12px)',
-      background: 'rgba(27, 48, 34, 0.75)',
-      borderBottom: '1px solid rgba(184, 148, 58, 0.3)',
-    }}>
-      <div style={{
-        maxWidth: 1200,
-        margin: '0 auto',
-        padding: '10px 24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '24px',
-        flexWrap: 'wrap',
+    <div
+      className="inline-flex items-center gap-3 bg-white/[.04] border border-gold/20 rounded-full px-4 py-[6px] backdrop-blur-md"
+      style={{ border: '1px solid rgba(184,148,58,0.25)' }}
+    >
+      <span style={{
+        fontFamily: "'Barlow Condensed', sans-serif",
+        fontSize: 10, fontWeight: 700,
+        letterSpacing: '0.12em', textTransform: 'uppercase',
+        color: '#B8943A',
+        whiteSpace: 'nowrap',
       }}>
-        {/* label */}
-        <span style={{
-          fontFamily: "'Barlow Condensed', sans-serif",
-          fontSize: 11,
-          fontWeight: 700,
-          letterSpacing: '0.2em',
-          textTransform: 'uppercase',
-          color: '#B8943A',
-        }}>
-          Vidyut-26 · Grand Finale
-        </span>
+        Vidyut-26
+      </span>
+      
+      <span style={{ width: 1, height: 10, background: 'rgba(255,255,255,0.12)' }} />
 
-        {/* divider */}
-        <span style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.15)', flexShrink: 0 }} />
-
-        {/* time units */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          {[
-            { val: pad(timeLeft.days),    label: 'Days'    },
-            { val: pad(timeLeft.hours),   label: 'Hours'   },
-            { val: pad(timeLeft.minutes), label: 'Mins'    },
-            { val: pad(timeLeft.seconds), label: 'Secs'    },
-          ].map(({ val, label }, i) => (
-            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{
-                  fontFamily: "'Bebas Neue', sans-serif",
-                  fontSize: 22,
-                  color: '#ffffff',
-                  lineHeight: 1,
-                  letterSpacing: '0.04em',
-                }}>
-                  {val}
-                </div>
-                <div style={{
-                  fontFamily: "'Barlow Condensed', sans-serif",
-                  fontSize: 9,
-                  fontWeight: 600,
-                  letterSpacing: '0.18em',
-                  textTransform: 'uppercase',
-                  color: 'rgba(255,255,255,0.35)',
-                  marginTop: 2,
-                }}>
-                  {label}
-                </div>
-              </div>
-              {i < 3 && (
-                <span style={{
-                  fontFamily: "'Bebas Neue', sans-serif",
-                  fontSize: 20,
-                  color: '#B8943A',
-                  lineHeight: 1,
-                  marginBottom: 10,
-                }}>:</span>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* divider */}
-        <span style={{ width: 1, height: 16, background: 'rgba(255,255,255,0.15)', flexShrink: 0 }} />
-
-        {/* date */}
-        <span style={{
-          fontFamily: "'Barlow Condensed', sans-serif",
-          fontSize: 11,
-          fontWeight: 600,
-          letterSpacing: '0.14em',
-          textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.35)',
-        }}>
-          Sept 9, 2026 · MANIT Bhopal
-        </span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        {[
+          { val: pad(timeLeft.days),    label: 'd' },
+          { val: pad(timeLeft.hours),   label: 'h' },
+          { val: pad(timeLeft.minutes), label: 'm' },
+          { val: pad(timeLeft.seconds), label: 's' },
+        ].map(({ val, label }, i) => (
+          <div key={label} style={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
+            <span style={{
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 15, color: '#fff',
+              lineHeight: 1,
+            }}>{val}</span>
+            <span style={{
+              fontFamily: "'Barlow Condensed', sans-serif",
+              fontSize: 8, fontWeight: 500,
+              color: 'rgba(255,255,255,0.3)',
+              textTransform: 'lowercase'
+            }}>{label}</span>
+            {i < 3 && <span style={{ color: '#B8943A', fontSize: 11, marginLeft: 2, opacity: 0.5 }}>:</span>}
+          </div>
+        ))}
       </div>
     </div>
   )
 }
 
+/* ── 2. SLIDE NAVIGATION TABS SYSTEM ── */
+function SlideTabs() {
+  const location = useLocation()
+  const [position, setPosition] = useState({ left: 0, width: 0, opacity: 0 })
+  const navRef = useRef(null)
+
+  useEffect(() => {
+    if (!navRef.current) return
+    const active = navRef.current.querySelector('[data-active="true"]')
+    if (active) {
+      const { width } = active.getBoundingClientRect()
+      setPosition({ left: active.offsetLeft, width, opacity: 1 })
+    }
+  }, [location.pathname])
+
+  return (
+    <ul
+      ref={navRef}
+      onMouseLeave={() => {
+        if (!navRef.current) return
+        const active = navRef.current.querySelector('[data-active="true"]')
+        if (active) {
+          const { width } = active.getBoundingClientRect()
+          setPosition({ left: active.offsetLeft, width, opacity: 1 })
+        } else {
+          setPosition((pv) => ({ ...pv, opacity: 0 }))
+        }
+      }}
+      className="relative flex items-center rounded-full border border-white/15 bg-white/[.06] p-1"
+    >
+      {links.map((l) => (
+        <SlideTab key={l.to} to={l.to} setPosition={setPosition}>
+          {l.label}
+        </SlideTab>
+      ))}
+      <SlideCursor position={position} />
+    </ul>
+  )
+}
+
+function SlideTab({ to, children, setPosition }) {
+  const ref = useRef(null)
+  const location = useLocation()
+  const isActive = to === '/'
+    ? location.pathname === '/'
+    : location.pathname.startsWith(to)
+
+  return (
+    <li
+      ref={ref}
+      data-active={isActive}
+      onMouseEnter={() => {
+        if (!ref.current) return
+        const { width } = ref.current.getBoundingClientRect()
+        setPosition({ left: ref.current.offsetLeft, width, opacity: 1 })
+      }}
+      className="relative z-10 list-none"
+    >
+      <NavLink
+        to={to}
+        end={to === '/'}
+        className="block font-condensed font-semibold text-[13px] tracking-[.1em] uppercase px-4 py-[7px] transition-colors duration-150 whitespace-nowrap"
+        style={({ isActive }) => ({
+          color: isActive ? '#0A0F0B' : 'rgba(255,255,255,0.6)',
+        })}
+      >
+        {children}
+      </NavLink>
+    </li>
+  )
+}
+
+function SlideCursor({ position }) {
+  return (
+    <motion.li
+      animate={{ ...position }}
+      transition={{ type: 'spring', stiffness: 400, damping: 35 }}
+      className="absolute z-0 h-8 rounded-full bg-gold list-none"
+      style={{ top: '50%', transform: 'translateY(-50%)' }}
+    />
+  )
+}
+
+/* ── 3. MAIN INTEGRATED EXPORT HEADER ── */
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
 
-  // close mobile menu on route change
   useEffect(() => { setOpen(false) }, [location])
 
-  // shadow on scroll
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 8)
     window.addEventListener('scroll', handler)
@@ -149,78 +175,60 @@ export default function Navbar() {
   }, [])
 
   return (
-    <> 
-    <CountdownBar />
     <header
       className={`sticky top-0 z-[200] bg-forest transition-shadow duration-200 ${
-        scrolled ? 'shadow-[0_2px_20px_rgba(0,0,0,0.35)]' : ''
+        scrolled ? 'shadow-[0_2px_20px_rgba(0,0,0,0.55)]' : ''
       }`}
     >
-      {/* ── main bar ── */}
-      <div className="max-w-[1200px] mx-auto px-6 h-[60px] flex items-center justify-between">
-
-        {/* Logo */}
-        <NavLink to="/" className="flex items-center gap-[9px] no-underline">
-          <div className="flex items-center h-full py-2">
-          <img 
-          src="https://evolve.nitb.in/Evolve_Logo.png" 
-          alt="Evolve NITB Logo" 
-          className="h-11 w-auto max-h-full object-contain block"
-          />
+      <div className="max-w-[1200px] mx-auto px-6 h-[95px] flex items-center justify-between gap-4">
+        
+        {/* Left Side: Logo & Embedded Badge together */}
+        <div className="flex items-center gap-5">
+          <NavLink to="/" className="no-underline flex-shrink-0">
+            <div className="w-16 h-16 md:w-[72px] md:h-[72px] bg-transparent flex items-center justify-center transition-transform duration-200 hover:scale-105">
+              <img 
+                src="https://evolve.nitb.in/Evolve_Logo.png" 
+                alt="Evolve Logo" 
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </NavLink>
+          
+          {/* Sits right next to the logo on desktop screens */}
+          <div className="hidden lg:block">
+            <InlineCountdown />
           </div>
-        </NavLink>
+        </div>
 
-        {/* Desktop links */}
-        <nav className="hidden md:flex items-center gap-0">
-          {links.map((l) => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              end={l.to === '/'}
-              className={({ isActive }) =>
-                `font-condensed font-semibold text-[14px] tracking-[.1em] uppercase px-4 py-1 border-b-2 transition-colors duration-150 ${
-                  isActive
-                    ? 'text-white border-gold'
-                    : 'text-white/50 border-transparent hover:text-white'
-                }`
-              }
-            >
-              {l.label}
-            </NavLink>
-          ))}
-        </nav>
+        {/* Right Side: Primary Navigation Links */}
+        <div className="hidden md:flex items-center gap-4">
+          {/* Moves into the main navbar line for mid-sized tablet displays */}
+          <div className="hidden md:block lg:hidden">
+            <InlineCountdown />
+          </div>
+          <SlideTabs />
+        </div>
 
-        {/* Hamburger */}
+        {/* Mobile Hamburger Action */}
         <button
           onClick={() => setOpen((o) => !o)}
           aria-label="Toggle menu"
-          className="md:hidden flex flex-col gap-[5px] p-[6px]"
+          className="md:hidden flex flex-col gap-[5px] p-[6px] z-50"
         >
-          <span
-            className={`block w-[22px] h-[2px] bg-white rounded-sm transition-transform duration-200 origin-center ${
-              open ? 'rotate-45 translate-y-[7px]' : ''
-            }`}
-          />
-          <span
-            className={`block w-[22px] h-[2px] bg-white rounded-sm transition-opacity duration-200 ${
-              open ? 'opacity-0' : ''
-            }`}
-          />
-          <span
-            className={`block w-[22px] h-[2px] bg-white rounded-sm transition-transform duration-200 origin-center ${
-              open ? '-rotate-45 -translate-y-[7px]' : ''
-            }`}
-          />
+          <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-transform duration-200 origin-center ${open ? 'rotate-45 translate-y-[7px]' : ''}`} />
+          <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-opacity duration-200 ${open ? 'opacity-0' : ''}`} />
+          <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-transform duration-200 origin-center ${open ? '-rotate-45 -translate-y-[7px]' : ''}`} />
         </button>
       </div>
 
-      {/* ── mobile menu ── */}
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-300 border-t border-white/[.07] ${
-          open ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'
-        }`}
-      >
-        <nav className="bg-forest px-6 pb-4 pt-1 flex flex-col">
+      {/* Mobile Menu Dropdown Panel */}
+      <div className={`md:hidden overflow-hidden transition-all duration-300 border-t border-white/[.07] ${open ? 'max-h-[450px] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <nav className="bg-forest px-6 pb-6 pt-3 flex flex-col gap-2">
+          {/* Renders right at the top of mobile link panel drawer */}
+          <div className="pb-3 border-b border-white/[.05] flex justify-center">
+            <InlineCountdown />
+          </div>
+          
           {links.map((l) => (
             <NavLink
               key={l.to}
@@ -228,7 +236,7 @@ export default function Navbar() {
               end={l.to === '/'}
               className={({ isActive }) =>
                 `font-condensed font-semibold text-[16px] tracking-[.1em] uppercase py-[11px] border-b border-white/[.05] last:border-none transition-colors duration-150 ${
-                  isActive ? 'text-white' : 'text-white/60 hover:text-white'
+                  isActive ? 'text-gold' : 'text-white/60 hover:text-white'
                 }`
               }
             >
@@ -238,15 +246,5 @@ export default function Navbar() {
         </nav>
       </div>
     </header>
-    </>
-  )
-}
-
-function BoltIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-      stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-    </svg>
   )
 }

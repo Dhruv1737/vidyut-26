@@ -1,26 +1,41 @@
+import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import Home     from './pages/Home'
-import Vidyut   from './pages/Vidyut'
-import Event    from './pages/Event'
-import About    from './pages/About'
-import Founders from './pages/Founders'
+import Navbar           from './components/Navbar'
+import Footer           from './components/Footer'
+import CountdownBar     from './components/CountdownBar'
+import CutoutTextLoader from './components/CutoutTextLoader'
+import Home             from './pages/Home'
+import Vidyut           from './pages/Vidyut'
+import Event            from './pages/Event'
+import About            from './pages/About'
+import Founders         from './pages/Founders'
+
+const hasSeenLoader = sessionStorage.getItem('vidyut_loaded')
 
 export default function App() {
+  const [loading, setLoading] = useState(!hasSeenLoader)
+
+  const handleDone = () => {
+    sessionStorage.setItem('vidyut_loaded', 'true')
+    setLoading(false)
+  }
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <main className="flex-1">
-        <Routes>
-          <Route path="/"          element={<Home />} />
-          <Route path="/vidyut"    element={<Vidyut />} />
-          <Route path="/event"     element={<Event />} />
-          <Route path="/about"     element={<About />} />
-          <Route path="/founders"  element={<Founders />} />
-        </Routes>
-      </main>
-      <Footer />
-    </div>
+    <>
+      {loading && <CutoutTextLoader duration={4500} onDone={handleDone} />}
+      <div className="flex flex-col min-h-screen" style={{ visibility: loading ? 'hidden' : 'visible' }}>
+        <Navbar />
+        <main className="flex-1">
+          <Routes>
+            <Route path="/"         element={<Home />}     />
+            <Route path="/vidyut"   element={<Vidyut />}   />
+            <Route path="/event"    element={<Event />}    />
+            <Route path="/about"    element={<About />}    />
+            <Route path="/founders" element={<Founders />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </>
   )
 }

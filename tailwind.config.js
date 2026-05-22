@@ -4,16 +4,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        forest:  '#1B3022',
-        pine:    '#2D5A27',
-        sage:    '#F4F7F1',
-        sage2:   '#E4EDE0',
-        gold:    '#B8943A',
-        goldb:   '#D4AB50',
-        ink:     '#0B1410',
-        muted:   '#617A5C',
-        dark:    '#0f1a11',
-      },
+  forest:  '#0A0F0B',   // near black — main background
+  pine:    '#1A2E1C',   // dark green — cards, sections
+  sage:    '#111811',   // deep green-black — alternate sections
+  sage2:   '#1E2E1F',   // border color
+  gold:    '#B8943A',   // gold accent — unchanged
+  goldb:   '#D4AB50',   // gold hover — unchanged
+  ink:     '#0A0F0B',   // text on gold buttons
+  muted:   '#6B8F6B',   // muted green-grey text
+  dark:    '#060C07',   // footer background
+  white:   '#FFFFFF',
+},
       fontFamily: {
         display: ['"Bebas Neue"', 'sans-serif'],
         condensed: ['"Barlow Condensed"', 'sans-serif'],
