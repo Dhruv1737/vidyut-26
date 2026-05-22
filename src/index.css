@@ -3,40 +3,35 @@
 @tailwind utilities;
 
 @layer base {
-  *, *::before, *::after { box-sizing: border-box; }
-
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-
   body {
-  font-family: 'Barlow', sans-serif;
-  background-color: #0A0F0B;
-  color: #FFFFFF;
-  overflow-x: hidden;
-  min-width: 320px;
-}
-
+    font-family: 'Inter', sans-serif;
+    background-color: #121212;
+    color: #FFFFFF;
+    overflow-x: hidden;
+    min-width: 320px;
+    -webkit-font-smoothing: antialiased;
+  }
   a { text-decoration: none; color: inherit; }
   img { display: block; object-fit: cover; }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: #121212; }
+  ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
 }
 
 @layer utilities {
   .font-display   { font-family: 'Bebas Neue', sans-serif; }
   .font-condensed { font-family: 'Barlow Condensed', sans-serif; }
-  .font-body      { font-family: 'Barlow', sans-serif; }
+  .font-body      { font-family: 'Inter', sans-serif; }
 
-  /* Ticker animation */
-  .animate-ticker {
-    animation: ticker 28s linear infinite;
-  }
+  .animate-ticker { animation: ticker 28s linear infinite; }
   @keyframes ticker {
     0%   { transform: translateX(0); }
     100% { transform: translateX(-50%); }
   }
 
-  /* Fade up on load */
-  .animate-fade-up {
-    animation: fadeUp 0.5s ease both;
-  }
+  .animate-fade-up   { animation: fadeUp 0.5s ease both; }
   .animate-fade-up-1 { animation: fadeUp 0.5s 0.08s ease both; }
   .animate-fade-up-2 { animation: fadeUp 0.5s 0.16s ease both; }
   .animate-fade-up-3 { animation: fadeUp 0.5s 0.24s ease both; }
@@ -46,26 +41,18 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Pulse dot */
-  .animate-pulse-dot {
-    animation: pulseDot 1.8s ease-in-out infinite;
-  }
+  .animate-pulse-dot { animation: pulseDot 1.8s ease-in-out infinite; }
   @keyframes pulseDot {
     0%, 100% { opacity: 0.45; }
     50%       { opacity: 1; }
   }
 
-  /* Gold top-line trick for footer */
-  .gold-topline {
-    height: 1px;
-    background: #2a3d2b;
-    position: relative;
-  }
+  .gold-topline { height: 1px; background: #2a2a2a; position: relative; }
   .gold-topline::after {
     content: '';
     position: absolute;
     left: 0; top: 0;
     width: 80px; height: 100%;
-    background: #B8943A;
+    background: #00C951;
   }
 }

@@ -10,7 +10,7 @@ const links = [
   { label: 'Founders',  to: '/founders' },
 ]
 
-/* ── 1. COMPACT CAPSULE COUNTDOWN ── */
+/* ── COUNTDOWN CAPSULE ── */
 function InlineCountdown() {
   const target = new Date('2026-09-09T09:00:00').getTime()
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
@@ -35,40 +35,68 @@ function InlineCountdown() {
 
   return (
     <div
-      className="inline-flex items-center gap-2 xs:gap-3 bg-white/[0.03] border rounded-full px-2.5 xs:px-4 py-[5px] backdrop-blur-md"
-      style={{ borderColor: 'rgba(184,148,58,0.2)' }}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 10,
+        background: 'rgba(255,255,255,0.04)',
+        border: '1px solid rgba(0,201,81,0.2)',
+        borderRadius: 999,
+        padding: '7px 16px',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+      }}
     >
+      {/* label */}
       <span style={{
         fontFamily: "'Barlow Condensed', sans-serif",
-        fontSize: 10, fontWeight: 700,
-        letterSpacing: '0.1em', textTransform: 'uppercase',
-        color: '#B8943A',
+        fontSize: 11,
+        fontWeight: 700,
+        letterSpacing: '0.14em',
+        textTransform: 'uppercase',
+        color: '#00C951',
         whiteSpace: 'nowrap',
       }}>
-        Vidyut
+        Vidyut '26
       </span>
-      
-      <span style={{ width: 1, height: 10, background: 'rgba(255,255,255,0.12)' }} />
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+      {/* divider */}
+      <span style={{ width: 1, height: 12, background: 'rgba(255,255,255,0.12)', flexShrink: 0 }} />
+
+      {/* units */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
         {[
           { val: pad(timeLeft.days),    label: 'd' },
           { val: pad(timeLeft.hours),   label: 'h' },
           { val: pad(timeLeft.minutes), label: 'm' },
           { val: pad(timeLeft.seconds), label: 's' },
         ].map(({ val, label }, i) => (
-          <div key={label} style={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
-            <span style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 14, color: '#fff',
-              lineHeight: 1,
-            }}>{val}</span>
-            <span style={{
-              fontFamily: "'Barlow Condensed', sans-serif",
-              fontSize: 7.5, fontWeight: 500,
-              color: 'rgba(255,255,255,0.3)',
-            }}>{label}</span>
-            {i < 3 && <span style={{ color: '#B8943A', fontSize: 10, marginLeft: 1, opacity: 0.4 }}>:</span>}
+          <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 1.5 }}>
+              <span style={{
+                fontFamily: "'Bebas Neue', sans-serif",
+                fontSize: 16,
+                color: '#ffffff',
+                lineHeight: 1,
+                letterSpacing: '0.04em',
+              }}>{val}</span>
+              <span style={{
+                fontFamily: "'Barlow Condensed', sans-serif",
+                fontSize: 8.5,
+                fontWeight: 600,
+                color: 'rgba(255,255,255,0.35)',
+                letterSpacing: '0.06em',
+              }}>{label}</span>
+            </div>
+            {i < 3 && (
+              <span style={{
+                color: '#00C951',
+                fontSize: 12,
+                opacity: 0.5,
+                lineHeight: 1,
+                marginBottom: 1,
+              }}>:</span>
+            )}
           </div>
         ))}
       </div>
@@ -76,7 +104,7 @@ function InlineCountdown() {
   )
 }
 
-/* ── 2. TAB TRACKING SLIDER ── */
+/* ── SLIDE TABS ── */
 function SlideTabs() {
   const location = useLocation()
   const [position, setPosition] = useState({ left: 0, width: 0, opacity: 0 })
@@ -104,7 +132,7 @@ function SlideTabs() {
           setPosition((pv) => ({ ...pv, opacity: 0 }))
         }
       }}
-      className="relative flex items-center rounded-full border border-white/15 bg-white/[.06] p-1"
+      className="relative flex items-center rounded-full border border-white/15 bg-white/[.05] p-1"
     >
       {links.map((l) => (
         <SlideTab key={l.to} to={l.to} setPosition={setPosition}>
@@ -122,13 +150,22 @@ function SlideTab({ to, children, setPosition }) {
   const isActive = to === '/' ? location.pathname === '/' : location.pathname.startsWith(to)
 
   return (
-    <li ref={ref} data-active={isActive} className="relative z-10 list-none">
+    <li
+      ref={ref}
+      data-active={isActive}
+      onMouseEnter={() => {
+        if (!ref.current) return
+        const { width } = ref.current.getBoundingClientRect()
+        setPosition({ left: ref.current.offsetLeft, width, opacity: 1 })
+      }}
+      className="relative z-10 list-none"
+    >
       <NavLink
         to={to}
         end={to === '/'}
         className="block font-condensed font-semibold text-[13px] tracking-[.1em] uppercase px-4 py-[7px] transition-colors duration-150 whitespace-nowrap"
         style={({ isActive }) => ({
-          color: isActive ? '#0A0F0B' : 'rgba(255,255,255,0.6)',
+          color: isActive ? '#121212' : 'rgba(255,255,255,0.6)',
         })}
       >
         {children}
@@ -142,13 +179,17 @@ function SlideCursor({ position }) {
     <motion.li
       animate={{ ...position }}
       transition={{ type: 'spring', stiffness: 400, damping: 35 }}
-      className="absolute z-0 h-8 rounded-full bg-gold list-none"
-      style={{ top: '50%', transform: 'translateY(-50%)' }}
+      className="absolute z-0 h-8 rounded-full list-none"
+      style={{
+        top: '50%',
+        transform: 'translateY(-50%)',
+        background: '#00C951',
+      }}
     />
   )
 }
 
-/* ── 3. LIVE NAVIGATION BAR MAIN ROW ── */
+/* ── NAVBAR ── */
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -164,38 +205,43 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-[200] bg-forest transition-shadow duration-200 ${
-        scrolled ? 'shadow-[0_2px_20px_rgba(0,0,0,0.55)]' : ''
+      className={`sticky top-0 z-[200] bg-forest border-b border-white/[.05] transition-shadow duration-200 ${
+        scrolled ? 'shadow-[0_4px_24px_rgba(0,0,0,0.6)]' : ''
       }`}
     >
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-[85px] flex items-center justify-between gap-2">
-        
-        {/* Left Section: Logo & Capsule are grouped together and always visible */}
-        <div className="flex items-center gap-3 sm:gap-4 flex-1 md:flex-initial">
-          <NavLink to="/" className="no-underline flex-shrink-0">
-            <div className="w-14 h-14 md:w-[72px] md:h-[72px] bg-transparent flex items-center justify-center transition-transform duration-200 hover:scale-105">
-              <img 
-                src="https://evolve.nitb.in/Evolve_Logo.png" 
-                alt="Evolve Logo" 
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-[80px] flex items-center justify-between gap-4">
+
+        {/* ── LEFT: logo + countdown ── */}
+        <div className="flex items-center gap-4 sm:gap-6 flex-shrink-0">
+
+          {/* Logo — bigger, more breathing room */}
+          <NavLink to="/" className="no-underline flex-shrink-0 group">
+            <div className="w-[72px] h-[72px] sm:w-[80px] sm:h-[80px] flex items-center justify-center transition-transform duration-200 group-hover:scale-105">
+              <img
+                src="https://evolve.nitb.in/Evolve_Logo.png"
+                alt="Evolve NITB"
                 className="w-full h-full object-contain"
               />
             </div>
           </NavLink>
-          
-          {/* Always visible on both mobile devices and desktop monitors */}
+
+          {/* vertical rule between logo and countdown */}
+          <span className="hidden sm:block w-px h-8 bg-white/10 flex-shrink-0" />
+
+          {/* Countdown — always visible */}
           <InlineCountdown />
         </div>
 
-        {/* Right Section: Large Screen Desktop links */}
+        {/* ── CENTER/RIGHT: desktop nav ── */}
         <div className="hidden md:flex items-center">
           <SlideTabs />
         </div>
 
-        {/* Mobile Hamburger Button */}
+        {/* ── HAMBURGER ── */}
         <button
           onClick={() => setOpen((o) => !o)}
           aria-label="Toggle menu"
-          className="md:hidden flex flex-col gap-[5px] p-[6px] ml-2 flex-shrink-0"
+          className="md:hidden flex flex-col gap-[5px] p-2 flex-shrink-0"
         >
           <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-transform duration-200 origin-center ${open ? 'rotate-45 translate-y-[7px]' : ''}`} />
           <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-opacity duration-200 ${open ? 'opacity-0' : ''}`} />
@@ -203,8 +249,8 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Dropdown overlay menu panel for small viewports */}
-      <div className={`md:hidden overflow-hidden transition-all duration-300 border-t border-white/[.07] ${open ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
+      {/* ── MOBILE MENU ── */}
+      <div className={`md:hidden overflow-hidden transition-all duration-300 border-t border-white/[.06] ${open ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
         <nav className="bg-forest px-6 pb-5 pt-2 flex flex-col">
           {links.map((l) => (
             <NavLink
@@ -212,7 +258,7 @@ export default function Navbar() {
               to={l.to}
               end={l.to === '/'}
               className={({ isActive }) =>
-                `font-condensed font-semibold text-[16px] tracking-[.1em] uppercase py-[11px] border-b border-white/[.05] last:border-none transition-colors duration-150 ${
+                `font-condensed font-semibold text-[16px] tracking-[.1em] uppercase py-[12px] border-b border-white/[.05] last:border-none transition-colors duration-150 ${
                   isActive ? 'text-gold' : 'text-white/60 hover:text-white'
                 }`
               }

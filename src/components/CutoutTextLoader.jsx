@@ -57,7 +57,7 @@ export default function CutoutTextLoader({ duration = 12000, onDone }) {
           letterSpacing: '0.06em',
           lineHeight: 1,
           color: 'transparent',
-          backgroundImage: 'linear-gradient(135deg, #2D5A27 0%, #B8943A 40%, #2D5A27 70%, #D4AB50 100%)',
+         backgroundImage: 'linear-gradient(135deg, #00C951 0%, #00A843 40%, #00C951 70%, #00E85A 100%)',
           backgroundSize: '300% 300%',
           WebkitBackgroundClip: 'text',
           backgroundClip: 'text',
@@ -110,7 +110,7 @@ export default function CutoutTextLoader({ duration = 12000, onDone }) {
       }}>
         <div style={{
           height: '100%',
-          background: 'linear-gradient(90deg, #2D5A27, #B8943A)',
+          background: 'linear-gradient(90deg, #00A843, #00C951)',
           animation: `progressFill ${duration}ms linear both`,
         }} />
       </div>
