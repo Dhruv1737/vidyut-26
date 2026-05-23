@@ -34,67 +34,65 @@ function InlineCountdown() {
   const pad = (n) => String(n).padStart(2, '0')
 
   return (
-    <div
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 10,
-        background: 'rgba(255,255,255,0.04)',
-        border: '1px solid rgba(0,201,81,0.2)',
-        borderRadius: 999,
-        padding: '7px 16px',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-      }}
-    >
-      {/* label */}
+    <div style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 8,
+      background: 'rgba(255,255,255,0.04)',
+      border: '1px solid rgba(0,201,81,0.2)',
+      borderRadius: 999,
+      padding: '5px 10px',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      flexShrink: 0,
+    }}>
+      {/* label — hidden on mobile */}
       <span style={{
         fontFamily: "'Barlow Condensed', sans-serif",
-        fontSize: 11,
+        fontSize: 10,
         fontWeight: 700,
         letterSpacing: '0.14em',
         textTransform: 'uppercase',
         color: '#00C951',
         whiteSpace: 'nowrap',
+        display: window.innerWidth < 480 ? 'none' : 'inline',
       }}>
         Vidyut '26
       </span>
 
-      {/* divider */}
-      <span style={{ width: 1, height: 12, background: 'rgba(255,255,255,0.12)', flexShrink: 0 }} />
+      {window.innerWidth >= 480 && (
+        <span style={{ width: 1, height: 10, background: 'rgba(255,255,255,0.12)', flexShrink: 0 }} />
+      )}
 
       {/* units */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
         {[
           { val: pad(timeLeft.days),    label: 'd' },
           { val: pad(timeLeft.hours),   label: 'h' },
           { val: pad(timeLeft.minutes), label: 'm' },
           { val: pad(timeLeft.seconds), label: 's' },
         ].map(({ val, label }, i) => (
-          <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 1.5 }}>
+          <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 1 }}>
               <span style={{
                 fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: 16,
+                fontSize: 14,
                 color: '#ffffff',
                 lineHeight: 1,
-                letterSpacing: '0.04em',
               }}>{val}</span>
               <span style={{
                 fontFamily: "'Barlow Condensed', sans-serif",
-                fontSize: 8.5,
+                fontSize: 8,
                 fontWeight: 600,
                 color: 'rgba(255,255,255,0.35)',
-                letterSpacing: '0.06em',
               }}>{label}</span>
             </div>
             {i < 3 && (
               <span style={{
                 color: '#00C951',
-                fontSize: 12,
+                fontSize: 10,
                 opacity: 0.5,
                 lineHeight: 1,
-                marginBottom: 1,
               }}>:</span>
             )}
           </div>
@@ -180,11 +178,7 @@ function SlideCursor({ position }) {
       animate={{ ...position }}
       transition={{ type: 'spring', stiffness: 400, damping: 35 }}
       className="absolute z-0 h-8 rounded-full list-none"
-      style={{
-        top: '50%',
-        transform: 'translateY(-50%)',
-        background: '#00C951',
-      }}
+      style={{ top: '50%', transform: 'translateY(-50%)', background: '#00C951' }}
     />
   )
 }
@@ -209,14 +203,15 @@ export default function Navbar() {
         scrolled ? 'shadow-[0_4px_24px_rgba(0,0,0,0.6)]' : ''
       }`}
     >
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-[80px] flex items-center justify-between gap-4">
+      {/* ── MAIN BAR ── */}
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-[60px] sm:h-[72px] flex items-center justify-between gap-2">
 
-        {/* ── LEFT: logo + countdown ── */}
-        <div className="flex items-center gap-4 sm:gap-6 flex-shrink-0">
+        {/* Left: logo + countdown */}
+        <div className="flex items-center gap-2 sm:gap-4 min-w-0">
 
-          {/* Logo — bigger, more breathing room */}
+          {/* Logo */}
           <NavLink to="/" className="no-underline flex-shrink-0 group">
-            <div className="w-[72px] h-[72px] sm:w-[80px] sm:h-[80px] flex items-center justify-center transition-transform duration-200 group-hover:scale-105">
+            <div className="w-[38px] h-[38px] sm:w-[52px] sm:h-[52px] md:w-[64px] md:h-[64px] flex items-center justify-center transition-transform duration-200 group-hover:scale-105">
               <img
                 src="https://evolve.nitb.in/Evolve_Logo.png"
                 alt="Evolve NITB"
@@ -225,51 +220,51 @@ export default function Navbar() {
             </div>
           </NavLink>
 
-          {/* vertical rule between logo and countdown */}
-          <span className="hidden sm:block w-px h-8 bg-white/10 flex-shrink-0" />
+          {/* Divider — sm+ only */}
+          <span className="hidden sm:block w-px h-6 bg-white/10 flex-shrink-0" />
 
-          {/* Countdown — always visible */}
+          {/* Countdown */}
           <InlineCountdown />
         </div>
 
-        {/* ── CENTER/RIGHT: desktop nav ── */}
-        <div className="hidden md:flex items-center">
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center flex-shrink-0">
           <SlideTabs />
         </div>
 
-        {/* ── HAMBURGER ── */}
+        {/* Hamburger */}
         <button
           onClick={() => setOpen((o) => !o)}
           aria-label="Toggle menu"
-          className="md:hidden flex flex-col gap-[5px] p-2 flex-shrink-0"
+          className="md:hidden flex flex-col justify-center gap-[5px] p-2 flex-shrink-0 ml-1"
         >
-          <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-transform duration-200 origin-center ${open ? 'rotate-45 translate-y-[7px]' : ''}`} />
-          <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-opacity duration-200 ${open ? 'opacity-0' : ''}`} />
-          <span className={`block w-[22px] h-[2px] bg-white rounded-sm transition-transform duration-200 origin-center ${open ? '-rotate-45 -translate-y-[7px]' : ''}`} />
+          <span className={`block w-[20px] h-[2px] bg-white rounded-sm transition-transform duration-200 origin-center ${open ? 'rotate-45 translate-y-[7px]' : ''}`} />
+          <span className={`block w-[20px] h-[2px] bg-white rounded-sm transition-opacity duration-200 ${open ? 'opacity-0' : ''}`} />
+          <span className={`block w-[20px] h-[2px] bg-white rounded-sm transition-transform duration-200 origin-center ${open ? '-rotate-45 -translate-y-[7px]' : ''}`} />
         </button>
       </div>
 
       {/* ── MOBILE MENU ── */}
-{open && (
-  <div className="md:hidden border-t border-white/[.06]">
-    <nav className="bg-forest px-6 pb-6 pt-3 flex flex-col">
-      {links.map((l) => (
-        <NavLink
-          key={l.to}
-          to={l.to}
-          end={l.to === '/'}
-          className={({ isActive }) =>
-            `font-condensed font-semibold text-[17px] tracking-[.1em] uppercase py-[14px] border-b border-white/[.06] last:border-none transition-colors duration-150 ${
-              isActive ? 'text-gold' : 'text-white/60 hover:text-white'
-            }`
-          }
-        >
-          {l.label}
-        </NavLink>
-      ))}
-    </nav>
-  </div>
-)}
+      {open && (
+        <div className="md:hidden border-t border-white/[.06]" style={{ background: '#1A1A1A' }}>
+          <nav className="px-5 pb-4 pt-2 flex flex-col">
+            {links.map((l) => (
+              <NavLink
+                key={l.to}
+                to={l.to}
+                end={l.to === '/'}
+                className={({ isActive }) =>
+                  `font-condensed font-semibold text-[16px] tracking-[.1em] uppercase py-[13px] border-b border-white/[.06] last:border-none transition-colors duration-150 ${
+                    isActive ? 'text-[#00C951]' : 'text-white'
+                  }`
+                }
+              >
+                {l.label}
+              </NavLink>
+            ))}
+          </nav>
+        </div>
+      )}
     </header>
   )
 }
