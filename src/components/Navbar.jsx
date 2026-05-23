@@ -250,24 +250,26 @@ export default function Navbar() {
       </div>
 
       {/* ── MOBILE MENU ── */}
-      <div className={`md:hidden overflow-hidden transition-all duration-300 border-t border-white/[.06] ${open ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
-        <nav className="bg-forest px-6 pb-5 pt-2 flex flex-col">
-          {links.map((l) => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              end={l.to === '/'}
-              className={({ isActive }) =>
-                `font-condensed font-semibold text-[16px] tracking-[.1em] uppercase py-[12px] border-b border-white/[.05] last:border-none transition-colors duration-150 ${
-                  isActive ? 'text-gold' : 'text-white/60 hover:text-white'
-                }`
-              }
-            >
-              {l.label}
-            </NavLink>
-          ))}
-        </nav>
-      </div>
+{open && (
+  <div className="md:hidden border-t border-white/[.06]">
+    <nav className="bg-forest px-6 pb-6 pt-3 flex flex-col">
+      {links.map((l) => (
+        <NavLink
+          key={l.to}
+          to={l.to}
+          end={l.to === '/'}
+          className={({ isActive }) =>
+            `font-condensed font-semibold text-[17px] tracking-[.1em] uppercase py-[14px] border-b border-white/[.06] last:border-none transition-colors duration-150 ${
+              isActive ? 'text-gold' : 'text-white/60 hover:text-white'
+            }`
+          }
+        >
+          {l.label}
+        </NavLink>
+      ))}
+    </nav>
+  </div>
+)}
     </header>
   )
 }
